@@ -1,5 +1,6 @@
 // import Link from "next/link";
 import { Button } from 'components/Button/Button';
+
 export default () => (
   <>
     <h1>Next Sandbox</h1>
