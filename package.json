@@ -7,7 +7,6 @@
     "start": "ENV=production node server.js"
   },
   "dependencies": {
-    " ": "babel/preset-env",
     "@emotion/core": "10.0.10",
     "@emotion/styled": "10.0.10",
     "@zeit/next-typescript": "1.1.1",
