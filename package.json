@@ -2,14 +2,29 @@
   "name": "github-dashboard-next",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "ENV=production node server.js"
   },
   "dependencies": {
+    " ": "babel/preset-env",
+    "@emotion/core": "10.0.10",
+    "@emotion/styled": "10.0.10",
+    "@zeit/next-typescript": "1.1.1",
+    "apollo-link-http": "1.5.14",
+    "babel-plugin-emotion": "10.0.9",
+    "btoa": "1.2.1",
+    "graphql": "14.1.1",
+    "graphql-tag": "2.10.1",
     "next": "latest",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "next-apollo": "2.0.9",
+    "node-fetch": "2.3.0",
+    "react": "16.8.5",
+    "react-apollo": "2.5.2",
+    "react-dom": "16.8.5"
+  },
+  "devDependencies": {
+    "node-fetch": "2.3.0"
   },
   "license": "ISC",
   "keywords": [],
