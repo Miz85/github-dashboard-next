@@ -1,64 +1,63 @@
-// import Link from "next/link";
 import * as React from 'react';
-import { GithubLoginButton } from 'components/GithubLoginButton/GithubLoginButton';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import withData from 'lib/apollo';
-
-import fetch from 'node-fetch';
-
-class UserInfo extends React.Component {
-  render() {
-    return typeof window !== 'undefined' ? (
-      <Query
-        query={gql`
-          query {
-            viewer {
-              login
-              name
-            }
-          }
-        `}
-      >
-        {({ loading, error, data }) => {
-          return (
-            <>
-              {loading ? <p>Loading...</p> : null}
-              {error ? <p>Error: {JSON.stringify(error)}</p> : null}
-              {!loading && !error && data ? <p>{data.viewer.login}</p> : null}
-            </>
-          );
-        }}
-      </Query>
-    ) : null;
-  }
-}
-
+import { LatestPrs } from 'components/LatestPrs/LatestPrs';
 class App extends React.Component {
-  state = {
-    isAuthenticated: false,
-    currentUser: null
-  };
-  componentDidMount() {
-    fetch(`${window.location.origin}/is-authenticated`)
-      .then(res => res.json())
-      .then(response =>
-        this.setState({
-          isAuthenticated: response.isAuthenticated
-        })
-      )
-      .catch(error => console.error(error));
-  }
-
   render() {
-    const { isAuthenticated } = this.state;
     return (
-      <>
-        <h1>Github Dashboard</h1>
-        <div>{!isAuthenticated && <GithubLoginButton />}</div>
+      <div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderBottom: '1px solid #dedede',
+            padding: '0px 16px'
+          }}
+        >
+          <p>Github Dashboard</p>
+          {
+            <Query
+              query={gql`
+                query {
+                  viewer {
+                    avatarUrl
+                  }
+                }
+              `}
+            >
+              {({ data }) => {
+                return data && data.viewer ? (
+                  <img
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '100%'
+                    }}
+                    src={data.viewer.avatarUrl}
+                    alt="avatar"
+                  />
+                ) : null;
+              }}
+            </Query>
+          }
+        </div>
 
-        {isAuthenticated && <UserInfo />}
-      </>
+        <div>
+          <h2>Renaud</h2>
+          <LatestPrs user="evilduckling" />
+
+          <h2>Lancelot</h2>
+          <LatestPrs user="lancelotimb" />
+
+          <h2>Julien</h2>
+          <LatestPrs user="themouette" />
+
+          <h2>Nicolas</h2>
+          <LatestPrs user="nicolaschenet" />
+        </div>
+      </div>
     );
   }
 }
