@@ -1,31 +1,32 @@
 {
-    "name": "github-dashboard-next",
-    "version": "1.0.0",
-    "scripts": {
-        "dev": "node server.js",
-        "build": "next build",
-        "start": "ENV=production node server.js"
-    },
-    "dependencies": {
-        "@emotion/core": "10.0.15",
-        "@emotion/styled": "10.0.15",
-        "@zeit/next-typescript": "1.1.1",
-        "apollo-link-http": "1.5.14",
-        "babel-plugin-emotion": "10.0.15",
-        "btoa": "1.2.1",
-        "graphql": "14.1.1",
-        "graphql-tag": "2.10.1",
-        "next": "latest",
-        "next-apollo": "2.0.9",
-        "node-fetch": "2.3.0",
-        "react": "16.8.5",
-        "react-apollo": "2.5.2",
-        "react-dom": "16.8.5"
-    },
-    "devDependencies": {
-        "node-fetch": "2.3.0"
-    },
-    "license": "ISC",
-    "keywords": [],
-    "description": ""
+  "name": "github-dashboard-next",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@emotion/core": "10.0.15",
+    "@emotion/styled": "10.0.15",
+    "@types/react": "16.9.1",
+    "apollo-link-http": "1.5.14",
+    "babel-plugin-emotion": "10.0.15",
+    "btoa": "1.2.1",
+    "graphql": "14.1.1",
+    "graphql-tag": "2.10.1",
+    "next": "9.0.3",
+    "next-apollo": "2.0.9",
+    "node-fetch": "2.3.0",
+    "react": "16.8.5",
+    "react-apollo": "2.5.2",
+    "react-dom": "16.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "12.7.1",
+    "typescript": "3.5.3"
+  },
+  "license": "ISC",
+  "keywords": [],
+  "description": ""
 }

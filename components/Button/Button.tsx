@@ -2,7 +2,7 @@ import * as React from 'react';
 
 interface ButtonProps {
   children: JSX.Element[];
-  style?: string;
+  style?: { [cssProp: string]: string };
   onClick: React.MouseEventHandler;
 }
 export const Button: React.FunctionComponent<ButtonProps> = ({

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Query } from 'react-apollo';
+import { Query, QueryResult, OperationVariables } from 'react-apollo';
 import gql from 'graphql-tag';
 
 interface ILatestPrs {
@@ -24,12 +24,11 @@ export const LatestPrs: React.FunctionComponent<ILatestPrs> = ({ user }) => {
         query: `is:pr is:open author:${user}`
       }}
     >
-      {({ loading, error, data }) => {
+      {({ loading, error, data }: QueryResult<any, OperationVariables>) => {
         if (error) {
           console.error(error);
           return <div />;
         }
-        console.log(data);
         return (
           <div>
             {loading ? (
@@ -37,7 +36,7 @@ export const LatestPrs: React.FunctionComponent<ILatestPrs> = ({ user }) => {
             ) : (
               <ul>
                 {data.search.nodes.map((pr: any) => (
-                  <li>
+                  <li key={pr.title}>
                     <a href={pr.url}>{pr.title}</a>
                   </li>
                 ))}
