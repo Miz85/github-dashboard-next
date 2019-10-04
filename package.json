@@ -7,19 +7,24 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/react-ssr": "3.1.2",
+    "@emotion/babel-preset-css-prop": "10.0.17",
     "@emotion/core": "10.0.15",
     "@emotion/styled": "10.0.15",
     "@types/react": "16.9.1",
+    "apollo-link-context": "1.0.19",
     "apollo-link-http": "1.5.14",
     "babel-plugin-emotion": "10.0.15",
     "btoa": "1.2.1",
+    "emotion-theming": "10.0.19",
     "graphql": "14.1.1",
     "graphql-tag": "2.10.1",
-    "next": "9.0.3",
+    "next": "9.0.7",
     "next-apollo": "2.0.9",
+    "next-with-apollo": "4.3.0",
     "node-fetch": "2.3.0",
     "react": "16.8.5",
-    "react-apollo": "2.5.2",
+    "react-apollo": "3.1.2",
     "react-dom": "16.8.5"
   },
   "devDependencies": {
