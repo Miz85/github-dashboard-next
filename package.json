@@ -16,6 +16,7 @@
     "apollo-link-http": "1.5.14",
     "babel-plugin-emotion": "10.0.15",
     "btoa": "1.2.1",
+    "date-fns": "2.4.1",
     "emotion-theming": "10.0.19",
     "graphql": "14.1.1",
     "graphql-tag": "2.10.1",
