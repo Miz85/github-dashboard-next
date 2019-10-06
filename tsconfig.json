@@ -19,12 +19,13 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["node", "@emotion/core"]
+    "types": ["node", "@emotion/core"],
+    "baseUrl": ".",
+    "paths": {
+      "components/*": ["components/*"],
+      "lib/*": ["lib/*"]
+    }
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "baseUrl": ".",
-  "paths": {
-    "components/*": ["components/*"]
-  }
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

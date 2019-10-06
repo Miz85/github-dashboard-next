@@ -7,12 +7,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.2",
     "@apollo/react-ssr": "3.1.2",
     "@emotion/babel-preset-css-prop": "10.0.17",
     "@emotion/core": "10.0.15",
     "@emotion/styled": "10.0.15",
-    "@types/react": "16.9.1",
-    "apollo-link-context": "1.0.19",
+    "apollo-client": "2.6.4",
     "apollo-link-http": "1.5.14",
     "babel-plugin-emotion": "10.0.15",
     "btoa": "1.2.1",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/node": "12.7.1",
+    "@types/react": "16.9.1",
     "typescript": "3.5.3"
   },
   "license": "ISC",
