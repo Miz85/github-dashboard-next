@@ -8,6 +8,26 @@ export const GET_LATEST_PRS = gql`
           title
           url
           createdAt
+          reviewRequests(first: 10) {
+            nodes {
+              requestedReviewer {
+                ... on User {
+                  name
+                  avatarUrl
+                }
+                ... on Team {
+                  name
+                  avatarUrl
+                }
+              }
+            }
+          }
+          reviews(first: 10) {
+            nodes {
+              viewerDidAuthor
+              state
+            }
+          }
         }
       }
     }

@@ -17,6 +17,8 @@ export const LatestPrs: React.FunctionComponent<ILatestPrs> = ({ user }) => {
     console.error(error);
     return <div />;
   }
+
+  console.log('>>>> ', JSON.stringify(data));
   return (
     <div>
       {loading ? (
@@ -24,7 +26,7 @@ export const LatestPrs: React.FunctionComponent<ILatestPrs> = ({ user }) => {
       ) : (
         <table
           css={{
-            width: '700px',
+            width: '100%',
             border: '1px solid #555',
             borderCollapse: 'collapse'
           }}
@@ -33,45 +35,103 @@ export const LatestPrs: React.FunctionComponent<ILatestPrs> = ({ user }) => {
             css={{
               '& th': {
                 padding: '5px'
-              },
-              border: 'none'
+              }
             }}
           >
             <tr>
               <th>Title</th>
               <th>Created</th>
+              <th>My Review</th>
+              <th>Other Reviews</th>
             </tr>
           </thead>
           <tbody>
-            {data.search.nodes.map((pr: any) => (
-              <tr
-                key={pr.title}
-                css={{ '& td': { padding: '5px', fontSize: '14px' } }}
-              >
-                <td style={{ width: '500px', border: '1px solid' }}>
-                  <a
-                    href={pr.url}
+            {data.search.nodes.length > 0 ? (
+              data.search.nodes.map((pr: any) => {
+                const viewerReview = pr.reviews.nodes.find(
+                  (review: any) => review.viewerDidAuthor
+                );
+                return (
+                  <tr
+                    key={pr.title}
                     css={{
-                      textDecoration: 'none',
-                      color: '#0086e6',
-                      '&:hover': {
-                        color: '#555'
+                      '& td': {
+                        padding: '5px',
+                        fontSize: '14px',
+                        border: '1px solid #555'
                       }
                     }}
                   >
-                    {pr.title}
-                  </a>
-                </td>
+                    <td>
+                      <a
+                        href={pr.url}
+                        css={{
+                          textDecoration: 'none',
+                          color: '#0086e6',
+                          '&:hover': {
+                            color: '#555'
+                          }
+                        }}
+                      >
+                        {pr.title}
+                      </a>
+                    </td>
+                    <td
+                      style={{
+                        width: '200px'
+                      }}
+                    >
+                      {`${formatDistanceToNow(parseISO(pr.createdAt))} ago`}
+                    </td>
+                    <td>
+                      <span>
+                        {viewerReview !== undefined
+                          ? viewerReview.state
+                          : 'Not reviewed yet'}
+                      </span>
+                    </td>
+                    <td>
+                      {pr.reviewRequests.nodes.map((reviewRequest: any) => (
+                        <div
+                          key={reviewRequest.requestedReviewer.name}
+                          css={{
+                            display: 'flex',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <img
+                            css={{
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '100%'
+                            }}
+                            src={reviewRequest.requestedReviewer.avatarUrl}
+                            alt="reviewer avatar"
+                          />
+                          <span css={{ whiteSpace: 'nowrap' }}>
+                            {reviewRequest.requestedReviewer.name}
+                          </span>
+                        </div>
+                      ))}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
                 <td
-                  style={{
-                    width: '200px',
-                    border: '1px solid #555'
+                  colSpan={5}
+                  css={{
+                    width: '100%',
+                    textAlign: 'center',
+                    fontStyle: 'italic',
+                    color: '#999'
                   }}
                 >
-                  {`${formatDistanceToNow(parseISO(pr.createdAt))} ago`}
+                  No open Pull Requests
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       )}
