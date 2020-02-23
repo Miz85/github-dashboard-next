@@ -4,12 +4,19 @@ import { GET_VIEWER_AVATAR } from 'lib/queries';
 import { LatestPrs } from 'components/LatestPrs/LatestPrs';
 import { withApollo } from 'lib/withApollo';
 import { ThemeProvider } from '@chakra-ui/core';
+import { UserProvider } from 'components/UserProvider';
+import { LogInButton } from 'components/LogInButton/LoginButton';
 
 const Home = () => {
-  const { data } = useQuery(GET_VIEWER_AVATAR);
+  // const { data } = useQuery(GET_VIEWER_AVATAR);
+
+  if (typeof document !== 'undefined') {
+
+    console.log(sessionStorage.getItem('token'))
+  }
   return (
     <ThemeProvider>
-      <div>
+      <UserProvider>
         <div
           style={{
             display: 'flex',
@@ -20,20 +27,21 @@ const Home = () => {
           }}
         >
           <p>Github Dashboard</p>
-          {data && data.viewer ? (
-            <img
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '100%'
-              }}
-              src={data.viewer.avatarUrl}
-              alt="avatar"
-            />
-          ) : null}
+          <LogInButton></LogInButton>
+          {/* {data && data.viewer ? (
+          <img
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '100%'
+            }}
+            src={data.viewer.avatarUrl}
+            alt="avatar"
+          />
+        ) : null} */}
         </div>
 
-        <div css={{ padding: '0px 32px' }}>
+        {typeof document !== 'undefined' && sessionStorage.getItem('token') ? <div css={{ padding: '0px 32px' }}>
           <h3>Renaud</h3>
           <LatestPrs user="evilduckling" />
 
@@ -45,8 +53,8 @@ const Home = () => {
 
           <h3>Nicolas</h3>
           <LatestPrs user="nicolaschenet" />
-        </div>
-      </div>
+        </div> : null}
+      </UserProvider>
     </ThemeProvider>
   );
 };
