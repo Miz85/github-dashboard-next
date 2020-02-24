@@ -11,7 +11,7 @@ export default async (req, res) => {
       }
     });
     const response = await rawResponse.json();
-    if (!response.query) {
+    if (!response.data) {
       throw new Error(response)
     }
     res.end(JSON.stringify(response));
