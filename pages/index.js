@@ -3,13 +3,20 @@ import { useQuery } from '@apollo/react-hooks';
 import { GET_VIEWER_AVATAR } from 'lib/queries';
 import { LatestPrs } from 'components/LatestPrs/LatestPrs';
 import { withApollo } from 'lib/withApollo';
-import { ThemeProvider } from '@chakra-ui/core';
+import { ThemeProvider, Avatar, Button, Menu, MenuButton, MenuList, MenuItem, } from '@chakra-ui/core';
+import auth0 from 'lib/auth0';
+import { UserProvider } from 'components/UserProvider/UserProvider';
 
-const Home = () => {
+const Home = ({ nickname, picture }) => {
   const { data } = useQuery(GET_VIEWER_AVATAR);
+  const onLogin = () => {
+    if (typeof window !== 'undefined') {
+      window.location.href = '/api/login';
+    }
+  }
   return (
     <ThemeProvider>
-      <div>
+      <UserProvider>
         <div
           style={{
             display: 'flex',
@@ -20,7 +27,7 @@ const Home = () => {
           }}
         >
           <p>Github Dashboard</p>
-          {data && data.viewer ? (
+          {/* {data && data.viewer ? (
             <img
               style={{
                 width: '36px',
@@ -30,7 +37,17 @@ const Home = () => {
               src={data.viewer.avatarUrl}
               alt="avatar"
             />
-          ) : null}
+          ) : null} */}
+          {nickname ?
+            <Menu>
+              <MenuButton as={(props) => <div {...props} />} size="sm">
+                <Avatar size="sm" name={nickname} src={picture}></Avatar>
+              </MenuButton>
+              <MenuList>
+                <MenuItem>Test</MenuItem>
+              </MenuList>
+            </Menu> :
+            <Button variantColor="purple" onClick={onLogin}>Login</Button>}
         </div>
 
         <div css={{ padding: '0px 32px' }}>
@@ -46,9 +63,19 @@ const Home = () => {
           <h3>Nicolas</h3>
           <LatestPrs user="nicolaschenet" />
         </div>
-      </div>
-    </ThemeProvider>
+      </UserProvider>
+    </ThemeProvider >
   );
 };
+
+Home.getInitialProps = async (ctx) => {
+  if (ctx && ctx.req) {
+    const session = await auth0.getSession(ctx.req);
+    return {
+      picture: session?.user?.picture,
+      nickname: session?.user?.nickname
+    }
+  }
+}
 
 export default withApollo(Home);
