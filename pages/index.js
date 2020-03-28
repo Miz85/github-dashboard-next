@@ -3,21 +3,54 @@ import { useQuery } from '@apollo/react-hooks';
 import { GET_VIEWER_AVATAR } from 'lib/queries';
 import { LatestPrs } from 'components/LatestPrs/LatestPrs';
 import { withApollo } from 'lib/withApollo';
-import { ThemeProvider, Avatar, Button, Menu, MenuButton, MenuList, MenuItem, } from '@chakra-ui/core';
-import auth0 from 'lib/auth0';
-import { UserProvider } from 'components/UserProvider/UserProvider';
+import { withAuth } from 'lib/withAuth';
+import { Flex, Box, Heading, Text, Input, Button } from '@chakra-ui/core';
 
-const Home = ({ nickname, picture }) => {
-  const { data } = useQuery(GET_VIEWER_AVATAR);
-  const onLogin = () => {
-    if (typeof window !== 'undefined') {
-      window.location.href = '/api/login';
-    }
-  }
+const Home = ({ user }) => {
+  const [ghToken, setGhToken] = React.useState(null);
+  const [existingToken, setExistingToken] = React.useState(
+    typeof window !== 'undefined'
+      ? window.localStorage.getItem('ghtools_token')
+      : undefined
+  );
+
   return (
-    <ThemeProvider>
-      <UserProvider>
-        <div
+    <>
+      <Heading as="h1" size="lg">
+        Welcome to github tools {user.nickname}!
+      </Heading>
+
+      {!existingToken ? (
+        <>
+          <Text>To get you started, please enter your github token below</Text>
+          <Box w="40%">
+            <Flex alignItems="center">
+              <Input
+                value={ghToken}
+                onChange={event => setGhToken(event.target.value)}
+                placeholder="your token"
+                borderColor="gray.300"
+                mr="2"
+              />
+              <Button
+                variantColor="purple"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.localStorage.setItem('ghtools_token', ghToken);
+                    setExistingToken(ghToken);
+                  }
+                }}
+              >
+                Submit
+              </Button>
+            </Flex>
+          </Box>
+        </>
+      ) : null}
+    </>
+  );
+  {
+    /* <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -27,7 +60,7 @@ const Home = ({ nickname, picture }) => {
           }}
         >
           <p>Github Dashboard</p>
-          {/* {data && data.viewer ? (
+          {data && data.viewer ? (
             <img
               style={{
                 width: '36px',
@@ -37,7 +70,7 @@ const Home = ({ nickname, picture }) => {
               src={data.viewer.avatarUrl}
               alt="avatar"
             />
-          ) : null} */}
+          ) : null}
           {nickname ?
             <Menu>
               <MenuButton as={(props) => <div {...props} />} size="sm">
@@ -62,20 +95,8 @@ const Home = ({ nickname, picture }) => {
 
           <h3>Nicolas</h3>
           <LatestPrs user="nicolaschenet" />
-        </div>
-      </UserProvider>
-    </ThemeProvider >
-  );
+        </div> */
+  }
 };
 
-Home.getInitialProps = async (ctx) => {
-  if (ctx && ctx.req) {
-    const session = await auth0.getSession(ctx.req);
-    return {
-      picture: session?.user?.picture,
-      nickname: session?.user?.nickname
-    }
-  }
-}
-
-export default withApollo(Home);
+export default withAuth(Home);

@@ -27,6 +27,9 @@ class MyDocument extends Document {
             * {
               font-family: Raleway, sans-serif;
             }
+            button {
+              border: none;
+            }
           `}
         />
         <body className="custom_class">
