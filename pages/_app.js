@@ -6,10 +6,16 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider>
-      <Navigation {...pageProps}></Navigation>
-      <PageLayout>
+      {pageProps.isLoggedIn ? (
+        <>
+          <Navigation {...pageProps}></Navigation>
+          <PageLayout>
+            <Component {...pageProps} />
+          </PageLayout>
+        </>
+      ) : (
         <Component {...pageProps} />
-      </PageLayout>
+      )}
     </ThemeProvider>
   );
 }
