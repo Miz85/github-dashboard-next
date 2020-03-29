@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { GET_VIEWER_AVATAR } from 'lib/queries';
 import { LatestPrs } from 'components/LatestPrs/LatestPrs';
 import { withApollo } from 'lib/withApollo';
 import { withAuth } from 'lib/withAuth';
 import { Flex, Box, Heading, Text, Input, Button } from '@chakra-ui/core';
 
+const getTokenFromLocalStorage = () =>
+  typeof window !== 'undefined'
+    ? window.localStorage.getItem('ghtools_token')
+    : null;
+
 const Home = ({ user }) => {
-  const [ghToken, setGhToken] = React.useState(null);
-  const [existingToken, setExistingToken] = React.useState(
-    typeof window !== 'undefined'
-      ? window.localStorage.getItem('ghtools_token')
-      : undefined
-  );
+  const [ghToken, setGhToken] = React.useState(getTokenFromLocalStorage());
+  const [tokenInputValue, setTokenInputValue] = React.useState('');
 
   return (
     <>
@@ -20,14 +20,14 @@ const Home = ({ user }) => {
         Welcome to github tools {user.nickname}!
       </Heading>
 
-      {!existingToken ? (
+      {!ghToken ? (
         <>
           <Text>To get you started, please enter your github token below</Text>
           <Box w="40%">
             <Flex alignItems="center">
               <Input
-                value={ghToken}
-                onChange={event => setGhToken(event.target.value)}
+                value={tokenInputValue}
+                onChange={event => setTokenInputValue(event.target.value)}
                 placeholder="your token"
                 borderColor="gray.300"
                 mr="2"
@@ -36,8 +36,11 @@ const Home = ({ user }) => {
                 variantColor="purple"
                 onClick={() => {
                   if (typeof window !== 'undefined') {
-                    window.localStorage.setItem('ghtools_token', ghToken);
-                    setExistingToken(ghToken);
+                    window.localStorage.setItem(
+                      'ghtools_token',
+                      tokenInputValue
+                    );
+                    setGhToken(tokenInputValue);
                   }
                 }}
               >
@@ -46,44 +49,8 @@ const Home = ({ user }) => {
             </Flex>
           </Box>
         </>
-      ) : null}
-    </>
-  );
-  {
-    /* <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderBottom: '1px solid #dedede',
-            padding: '0px 16px'
-          }}
-        >
-          <p>Github Dashboard</p>
-          {data && data.viewer ? (
-            <img
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '100%'
-              }}
-              src={data.viewer.avatarUrl}
-              alt="avatar"
-            />
-          ) : null}
-          {nickname ?
-            <Menu>
-              <MenuButton as={(props) => <div {...props} />} size="sm">
-                <Avatar size="sm" name={nickname} src={picture}></Avatar>
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Test</MenuItem>
-              </MenuList>
-            </Menu> :
-            <Button variantColor="purple" onClick={onLogin}>Login</Button>}
-        </div>
-
-        <div css={{ padding: '0px 32px' }}>
+      ) : (
+        <Box>
           <h3>Renaud</h3>
           <LatestPrs user="evilduckling" />
 
@@ -95,8 +62,10 @@ const Home = ({ user }) => {
 
           <h3>Nicolas</h3>
           <LatestPrs user="nicolaschenet" />
-        </div> */
-  }
+        </Box>
+      )}
+    </>
+  );
 };
 
 export default withAuth(Home);
