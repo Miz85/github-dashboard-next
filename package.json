@@ -24,7 +24,7 @@
     "graphql": "15.0.0",
     "graphql-tag": "2.10.3",
     "next": "9.4.2",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.1",
     "react": "16.13.1",
     "react-apollo": "3.1.5",
     "react-dom": "16.13.1"
