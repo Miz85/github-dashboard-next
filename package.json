@@ -9,7 +9,7 @@
   "dependencies": {
     "@apollo/react-hooks": "4.0.0",
     "@apollo/react-ssr": "4.0.0",
-    "@auth0/nextjs-auth0": "0.16.0",
+    "@auth0/nextjs-auth0": "1.4.2",
     "@chakra-ui/core": "0.8.0",
     "@emotion/babel-preset-css-prop": "10.1.0",
     "@emotion/core": "10.1.0",
